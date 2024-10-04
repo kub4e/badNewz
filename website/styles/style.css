@@ -1,0 +1,52 @@
+.article {
+    border: 3px solid gray;
+    padding: 10px;
+    margin: 3px;
+    border-radius: 10px;
+    overflow: hidden;
+    /* allows me to make the whole article a clickable link */
+    position: relative;
+}
+
+.topbar, .bottom-bar {
+    border: 3px solid gray;
+    padding: 10px;
+    margin: 3px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.source {
+    clear: both;
+    display: inline-block;
+    margin-left: 10px;
+    width: 80%;
+}
+
+.date {
+    clear: both;
+    display: inline-block;
+}
+
+img {
+    max-width: 200px;
+    max-height: 200px;
+    float: left;
+    margin: 10px;
+}
+
+body {
+    color: #d9d9d9;
+    background-color: black;
+    max-width: 800px;
+    margin: auto;
+}
+
+a:link {
+    color: #0077aa;
+}
+
+a:visited {
+    color: #ca1a70;
+}
+

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Aggregator</title>
+    <link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+    <div class="topbar">
+        <form>
+            <label for="topic">Topic:</label>
+            <select name="topic" id="topic">
+                <option selected="selected" value="all">All</option>
+                <option value="politics">politics</option>
+                <option value="economy">economy</option>
+            </select>
+            
+            <label for="source">Source:</label>
+            <select name="source" id="source">
+                <option selected="selected" value="all">All</option>
+                <option value="btv">BTV</option>
+                <option value="tvevropa">TV Evropa</option>
+                <option value="bnt">BNT</option>
+                <option value="novinibg">NoviniBG</option>
+            </select>
+
+            <label for="search">Search:</label>
+            <input type="text" id="search" name="search">
+
+            <input type="submit" value="Filter">
+        </form>
+    </div>
+
+    {{range .}}
+
+    <div class="article">
+        <a href="articles/{{ .MyUrl }}" class="link-tag" style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; width: 100%; height: 100%;"></a>
+            <img src="{{ .Img }}">
+            <h3>{{ .Title }}</h3>
+            <p>{{ .Description }}</p>
+            <div style="clear:both;">
+            <p class="source">{{ .Source }}</p>
+            <p class="date">{{ .Date }}</p>
+            </div>
+    </div>
+    
+    {{end}}
+
+    <div class="bottom-bar">
+        <button onclick="previousPage();">Previous page</button>
+        <button onclick="nextPage();">Next page</button>
+        <script type="text/javascript">
+          function nextPage() {
+            var newurl = ""
+            var searchParams = new URLSearchParams(window.location.search)
+            page = new URL(location.href).searchParams.get('page')
+            if (page == null && location.search == "") {
+                newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + location.search + '?page=2';
+            }
+            else if (page == null && location.search != "") {
+                newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + location.search + '&page=2';
+            }
+            else if (page != null && location.search != "") {
+                let newLocation = location.search.replace(/page=./, "page=" + (parseInt(page)+1))
+                newurl = newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + newLocation
+            }
+
+            //alert(parseInt(page)+1)
+            if (history.pushState) {
+                window.history.pushState({path:newurl},'',newurl);
+            }
+            window.location.replace(newurl)
+          }
+
+          function previousPage() {
+            newurl = ""
+            page = parseInt(new URL(location.href).searchParams.get('page'))
+            if (page <= 1 || page == null) {
+                exit()
+            }
+            else {
+                let newLocation = location.search.replace(/page=./, "page=" + (parseInt(page)-1))
+                newurl = newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + newLocation
+            }
+
+            if (history.pushState) {
+                window.history.pushState({path:newurl},'',newurl);
+            }
+            window.location.replace(newurl)
+          }
+        </script>
+            <!--<button type="submit">2</button>-->
+    </div>
+</body>
+
+</html>
